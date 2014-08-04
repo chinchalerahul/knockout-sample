@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout JS Display Name</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			function personViewModel() {
+				var self = this;
+				
+				// foreach binding
+				self.people = ko.observableArray([
+					{firstname:'Joy', lastname: 'Birth'},
+					{firstname: 'Mary', lastname: 'Christ'},
+					{firstname: 'Gulli', lastname: 'Shekh'},
+				]);
+
+				self.removePeople = function(){
+					console.log(this);
+					self.people.remove(this);
+				};
+
+				self.addPeople = function(){
+					self.people.push({firstname:'New Firstname', lastname: 'New Lastname'});
+				};
+
+				// end foreach binding
+
+				// if binding
+				self.showMessage = ko.observable(false);
+				// end if binding
+
+				// with binding
+			    self.twitterName = ko.observable('@example');
+			    self.resultData = ko.observable(); // No initial value
+			 
+			    self.getTweets = function() {
+			        var name = self.twitterName(),
+			            simulatedResults = [
+			                { text: name + ' What a nice day.' },
+			                { text: name + ' Building some cool apps.' },
+			                { text: name + ' Just saw a famous celebrity eating lard. Yum.' }
+			            ];
+			 
+			        self.resultData({ retrievalDate: new Date(), topTweets: simulatedResults });
+			    };
+			 
+			    self.clearResults = function() {
+			        self.resultData(undefined);
+			    };	
+			    // end with binding	
+
+			    //submit binding
+			    self.submitLoginForm = function(){
+			    	alert("Form submitted");
+			    };	
+			    //submit binding
+
+			    // enable binding
+			    self.hasCellNo = ko.observable(false);
+			    // end enable binding
+
+			}			 
+			ko.applyBindings(new personViewModel());
+
+		});
+	</script>
+
+	<!-- foreach binding -->
+	<table border="1">
+		<thead>
+			<th>Sl No</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Operation</th>
+		</thead>
+		<tbody data-bind='foreach: people'>
+			<tr>
+				<td data-bind="text: $index"></td>
+				<td data-bind="text: firstname"></td>
+				<td data-bind="text: lastname"></td>
+				<td data-bind="click: $parent.removePeople">Remove</td>
+			</tr>
+		</tbody>
+	</table>
+	<input type="button" value="Add" data-bind="click: addPeople"/>
+
+	<!-- if binding -->
+	<div>
+		<label><input type="checkbox" data-bind="checked: showMessage"> Click to show/hide message</label>
+	</div>
+	<div data-bind="if: showMessage">This is a message</div>
+
+	<!-- With binding -->
+	<form data-bind="submit: getTweets">
+	    Twitter account:
+	    <input data-bind="value: twitterName" />
+	    <button type="submit">Get tweets</button>
+	</form>
+	 
+	<div data-bind="with: resultData">
+	    <h3>Recent tweets fetched at <span data-bind="text: retrievalDate"> </span></h3>
+	    <ol data-bind="foreach: topTweets">
+	        <li data-bind="text: text"></li>
+	    </ol>
+	 
+	    <button data-bind="click: $parent.clearResults">Clear tweets</button>
+	</div>
+
+	<!-- submit binding -->	
+	<form data-bind="submit: submitLoginForm">
+		<input type="text" placeholder="Enter Name" />
+		<button>Submit</button>
+	</form>
+
+	<!-- enable binding -->	
+	<div>
+		<input type="checkbox" data-bind="checked: hasCellNo">I have Landline Phone
+		<div>
+			Enter Phone No :<input type="text" data-bind="enable: hasCellNo">
+		</div>
+	</div>
+
+	<!-- disable binding -->	
+	<div>
+		<div>
+			Enter Mobile No :<input type="text" data-bind="disable: hasCellNo">
+		</div>
+	</div>
+
+
+</body>
+</html>

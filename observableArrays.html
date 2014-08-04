@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout JS Display Name</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			function MyViewModel() {
+				this.obs_array = ko.observableArray([
+					{name:'Jack', age:'20'},
+					{name:'Jill', age:'21'},
+					{name:'Doll', age:'22'}
+				]);
+				console.log(this.obs_array());
+			}			 
+			ko.applyBindings(new MyViewModel());
+
+		});
+	</script>
+
+	<!-- disply result using data-bind -->
+	<p>Length of array is : <span data-bind="text: obs_array().length"></span></p>
+	<p>First element of array is : <span data-bind="text: obs_array()[0].name"></span></p>
+
+</body>
+</html>

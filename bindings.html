@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout JS Display Name</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			function MyViewModel() {
+				this.obs_array = ko.observableArray([]);
+				this.obs_array.push("MyVal");
+				this.profit = ko.observable(2);
+				this.urlInfo = ko.observable("http://www.google.com");
+				this.titleInfo = ko.observable("Gogole");
+			}			 
+			ko.applyBindings(new MyViewModel());
+
+		});
+	</script>
+
+	<!-- disply result using data-bind -->
+	<div data-bind="visible: obs_array().length > 0">
+	    You will see this message only when 'obs_array' has at least one member.
+	</div>
+
+	<!-- html binding -->
+	<div><span data-bind="text:obs_array()[0]"></span> - text binding</div>
+
+	<!-- html binding -->
+	<div><span data-bind="html:obs_array()[0]"></span> - html binding</div>
+
+	<!-- css class binding -->
+	<div data-bind="css:{ profitclass: profit() > 0 }">Profit Information</div>
+
+	<!-- style binding -->
+	<div data-bind="style:{ color: profit() > 0 ? 'green' : 'red',fontWeight:'bold' }">Profit Information</div>
+
+	<!-- attr bindings -->
+	<div><a data-bind="attr:{href:urlInfo, title:titleInfo, target:'_blank'}">Click here to go</a> <span data-bind="text: titleInfo()"></span></div>
+
+</body>
+</html>

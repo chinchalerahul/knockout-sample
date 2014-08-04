@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout JS Display Name</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//creating object
+			var viewModel = {
+				firstname: ko.observable('Rahul'),
+				lastname: ko.observable('Chinchale')
+			};
+
+			//writting into observables
+			viewModel.firstname('Mary');
+
+			//apply binding to viewModel object
+			ko.applyBindings(viewModel);
+
+			//reading observables
+			console.log(viewModel.firstname());	
+
+		});
+	</script>
+
+	<!-- disply result using data-bind -->
+	<div>My Name is : <input type="text" data-bind="value:firstname"/></div>
+
+	<!-- this is subscriber-->
+	<h2>You have typed : <span data-bind="text:firstname"></span></h2>
+
+</body>
+</html>

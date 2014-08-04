@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout JS Display Name</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			function MyViewModel() {
+			    this.firstName = ko.observable('Planet');
+			    this.lastName = ko.observable('Earth');
+			 
+			    this.fullName = ko.computed({
+			        read: function () {
+			            return this.firstName() + " " + this.lastName();
+			        },
+			        write: function (value) {
+			            var lastSpacePos = value.lastIndexOf(" ");
+			            if (lastSpacePos > 0) { // Ignore values with no space character
+			                this.firstName(value.substring(0, lastSpacePos)); // Update "firstName"
+			                this.lastName(value.substring(lastSpacePos + 1)); // Update "lastName"
+			            }
+			        },
+			        owner: this
+			    });
+			}			 
+			ko.applyBindings(new MyViewModel());
+			
+		});
+	</script>
+
+	<!-- disply result using data-bind -->
+	<p>First name: <span data-bind="text: firstName"></span></p>
+	<p>Last name: <span data-bind="text: lastName"></span></p>
+	<h2>Hello, <input data-bind="value: fullName"/>!</h2>
+
+</body>
+</html>
