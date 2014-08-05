@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Knockout Example</title>
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-3.1.0.js"></script>	
+</head>
+<body>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			function myViewModel(){
+				var self = this;
+
+				//click binding
+				self.noClicks = ko.observable(0);
+				self.clickMe = function(){
+					var newValue = self.noClicks() + 1;
+					self.noClicks(newValue);
+				};
+				//end click binding
+
+				//event binding 
+				self.activeMouseOver = ko.observable(false);
+				self.enableDetails = function(){
+					self.activeMouseOver(true);
+				};
+				self.disableDetails = function(){
+					self.activeMouseOver(false);
+				};
+			}
+			ko.applyBindings(new myViewModel());
+		});
+
+	</script>
+
+	<!-- click binding -->
+	<div>You have clicked = <span data-bind="text: noClicks"></span> <button data-bind="click: clickMe, clickBubble: false">Clcik Me</button></div>	
+	<!-- end click binding -->
+
+	<!-- event binding -->
+	<div data-bind="event: {mouseover: enableDetails, mouseout: disableDetails}">Mouse over on me</div>
+	<div data-bind="visible: activeMouseOver">THis details shown on mouse over</div>
+	<!-- end event binding -->
+
+</body>
+</html>
