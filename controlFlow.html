@@ -64,7 +64,31 @@
 			    // enable binding
 			    self.hasCellNo = ko.observable(false);
 			    // end enable binding
+				
+				// hasFocus binding 
+				self.isPrClicked = ko.observable(false);
+				self.focusClick = function (){
+					self.isPrClicked(true);
+				};
+				
+				self.myname = ko.observable("Albert");
+				self.editingMode = ko.observable(false);
+				self.showEdit = function(){
+					self.editingMode(true);
+				};
+				// end hasFocus binding 
+				
+				//select binding
+				self.availableCountries = ko.observableArray(['France', 'Germany', 'Spain']);
 
+				self.myItems = [
+					{ name: 'Item 1', id: 1, disable: ko.observable(false)},
+					{ name: 'Item 3', id: 3, disable: ko.observable(true)},
+					{ name: 'Item 4', id: 4, disable: ko.observable(false)}
+				];
+				self.setOptionDisable = function(option, item) {
+					ko.applyBindingsToNode(option, {disable: item.disable}, item);
+				};				
 			}			 
 			ko.applyBindings(new personViewModel());
 
@@ -133,6 +157,40 @@
 		</div>
 	</div>
 
-
+	<!-- hasFocus binding -->	
+	<div>
+		<div>
+			<input type="text" data-bind="hasfocus: isPrClicked">
+			<button data-bind="click: focusClick">Focus PR</button>
+			<div data-bind="visible: isPrClicked" >Focus activated</div>
+		</div>
+	</div>
+	
+	<div>
+		<p>
+			Name:
+			<b data-bind="visible: !editingMode(), text: myname, click: showEdit">&nbsp;</b>
+			<input data-bind="visible: editingMode, value: myname, hasFocus: editingMode" />
+		</p>
+		<p><em>Click the name to edit it; click elsewhere to apply changes.</em></p>	
+	</div>
+	
+	<!-- select binding -->
+	<p>
+		Destination country:
+		<select data-bind="options: availableCountries, optionsCaption: 'Select an item' " ></select>
+	</p>
+	<p>
+		Multiple country:
+		<select data-bind="options: availableCountries" multiple="true"></select>
+	</p>	
+	<p>
+		<select size=3 data-bind="
+			options: myItems,
+			optionsText: 'name',
+			optionsValue: 'id',
+			optionsAfterRender: setOptionDisable">
+		</select>	
+	</p>
 </body>
 </html>
